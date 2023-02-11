@@ -38,11 +38,7 @@ require('fidget').setup({
         )
       end,
   },
-  sources = {                 -- Sources to configure
-    * = {                     -- Name of source
-      ignore = false,         -- Ignore notifications from this source
-    },
-  },
+  sources = {},
   debug = {
     logging = false,          -- whether to enable logging, for debugging
     strict = false,           -- whether to interpret LSP strictly

@@ -4,9 +4,9 @@ require('settings/tabs')
 require('settings/panels')
 require('settings/search')
 
+-- Плагины
+require('plugins/packer')
+
 -- Комбинации клавиш
 require('keymaps/system')
 require('keymaps/plugins')
-
--- Плагины
-require('plugins/packer')
