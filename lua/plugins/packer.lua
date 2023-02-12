@@ -164,4 +164,10 @@ return require('packer').startup(function(use)
     'vim-php/phpctags',
     run = 'composer install'
   }
+
+  -- Аналог LSP-сервера для поддержки оболочки fish
+  use 'dag/vim-fish'
+
+  -- Цветовая тема
+  use 'rktjmp/lush.nvim';
 end)
