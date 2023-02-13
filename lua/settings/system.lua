@@ -18,3 +18,12 @@ vim.opt.signcolumn = 'yes'
 
 -- 24-битные цвета
 vim.opt.termguicolors = true
+
+-- Отключение переноса строк
+vim.opt_local.wrap = false
+
+-- Отображение колонки курсора
+vim.opt_local.cursorcolumn = true
+
+-- Выбор цветовой темы
+vim.cmd.colorscheme('default')

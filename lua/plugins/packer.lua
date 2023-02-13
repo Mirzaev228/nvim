@@ -4,10 +4,11 @@ vim.cmd('packadd packer.nvim')
 return require('packer').startup(function(use)
   -- Менеджер плагинов Packer (автообновление)
   use 'wbthomason/packer.nvim'
-
+  
   -- Быстрая настройка LSP-серверов
-	use {
+  use {
     'neovim/nvim-lspconfig',
+		after = 'coq_nvim',
     config = function() require('plugins/lspconfig') end
   }
 
@@ -169,5 +170,11 @@ return require('packer').startup(function(use)
   use 'dag/vim-fish'
 
   -- Цветовая тема
-  use 'rktjmp/lush.nvim';
+  use {
+    'rktjmp/lush.nvim',
+    config = function() require('plugins/lush') end
+  };
+
+  -- Аналог LSP-сервера для подержки синтаксиса nginx
+  use 'chr4/nginx.vim'
 end)
