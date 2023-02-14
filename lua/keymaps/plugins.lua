@@ -1,11 +1,11 @@
 --[[ nvim-neo-tree/neo-tree ]]
 
 -- Открыть интерфейс с древовидным отображением файлов
-vim.keymap.set({'n', 'i', 'v', 'o', 'x'}, '<f1>', '<cmd>NeoTreeRevealToggle<cr>', {noremap = true})
+vim.keymap.set({'n', 'i', 'v', 't'}, '<f1>', '<cmd>NeoTreeRevealToggle<cr>', {noremap = true})
 
 
 -- [[ folke/trouble.nvim ]]
-vim.keymap.set({'n', 'i', 'v', 'o', 'x'}, '<f2>', '<cmd>TroubleToggle<cr>', {noremap = true})
+vim.keymap.set({'n', 'i', 'v', 't'}, '<f2>', '<cmd>TroubleToggle<cr>', {noremap = true})
 
 
 --[[ onsails/diaglist.nvim ]]
@@ -147,9 +147,8 @@ vim.keymap.set('x', '<leader>cd', '<Plug>kommentary_visual_decrease', {noremap =
 
 
 --[[ preservim/tagbar ]]
-vim.keymap.set({'n', 'i', 'v', 'o', 'x'}, '<f8>', '<cmd>TagbarToggle<cr>', {noremap = true, silent = true})
+vim.keymap.set({'n', 'i', 'v', 't'}, '<f8>', '<cmd>TagbarToggle<cr>', {noremap = true, silent = true})
 
 
 --[[ simrat39/symbols-outline.nvim ]]
-vim.keymap.set({'n', 'i', 'v', 'o', 'x'}, '<f7>', '<cmd>SymbolsOutline<cr>', {noremap = true, silent = true})
-
+vim.keymap.set({'n', 'i', 'v', 't'}, '<f7>', '<cmd>SymbolsOutline<cr>', {noremap = true, silent = true})

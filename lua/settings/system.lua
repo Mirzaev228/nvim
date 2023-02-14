@@ -27,3 +27,14 @@ vim.opt_local.cursorcolumn = true
 
 -- Выбор цветовой темы
 vim.cmd.colorscheme('default')
+
+-- Добавление ru_RU (переключать через <c-^>)
+vim.opt.keymap = 'russian-jcukenwin'
+
+-- Переключать раскладку на en_US при поиске и вставке
+vim.opt.iminsert = 0
+vim.opt.imsearch = 0
+
+-- Поддержка буквы "ё"
+vim.opt_local.spell = true
+vim.opt_local.spelllang = 'ru_yo,en_us'
