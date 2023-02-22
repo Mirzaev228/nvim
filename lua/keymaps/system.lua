@@ -21,4 +21,4 @@ vim.keymap.set({'n', 'i', 'v', 't'}, '<c-right>', '', {noremap = true, silent = 
 vim.keymap.set({'n', 'i', 'v', 't'}, '<c-down>', '', {noremap = true, silent = true})
 
 -- Быстрое форматирование всего документа
-vim.keymap.set({'n', 'v', 't'}, 'F', '1GVG=<cr>', {noremap = true, silent = true})
+vim.keymap.set({'n', 'v', 't'}, '<space>F', '1GVG=<cr>', {noremap = true, silent = true})

@@ -49,7 +49,7 @@ lspconfig_on_attach = function(client, bufnr)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, {noremap = true, silent = true, buffer = bufnr})
 
   -- Форматирование
-  vim.keymap.set('n', '<space>f', function() vim.lsp.buf.format { async = true } end, {noremap = true, silent = true, buffer = bufnr})
+  vim.keymap.set({'n', 'v', 't'}, 'F', function () vim.lsp.buf.format {async = true} end, {noremap = true, silent = true, buffer = bufnr})
 end
 
 

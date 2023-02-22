@@ -11,16 +11,22 @@ local coq = require('coq')
 -- Инициализация LSP-серверов
 
 -- Инициализация "psalm" (LSP-сервер для PHP)
-lspconfig.psalm.setup {
+lspconfig.psalm.setup({
   on_attach = lspconfig_on_attach,
   coq.lsp_ensure_capabilities()
-}
+})
 
 -- Инициализация "vscode-html-language-server" (готовый набросок для HTML)
-lspconfig.html.setup {
+lspconfig.html.setup({
   on_attach = lspconfig_on_attach,
   capabilities = capabilities
-}
+})
+
+-- Инициализация "vscode-html-language-server" (готовый набросок для CSS)
+lspconfig.cssls.setup({
+  on_attach = lspconfig_on_attach,
+  capabilities = capabilities
+})
 
 -- Инициализация "vscode-langservers-extracted" (готовый набросок для JavaScript и PostScript)
 lspconfig.eslint.setup({
@@ -34,4 +40,14 @@ lspconfig.eslint.setup({
     -- Вызов глобальной функции
     lspconfig_on_attach(client, bufnr)
   end,
+})
+
+-- Инициализация "vscode-langservers-extracted" (готовый набросок для JSON)
+lspconfig.jsonls.setup({
+  on_attach = lspconfig_on_attach,
+  capabilities = capabilities,
+  filetypes = {
+    'json',
+    'log'
+  }
 })
