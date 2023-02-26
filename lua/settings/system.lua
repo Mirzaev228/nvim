@@ -5,7 +5,7 @@ vim.opt.clipboard = 'unnamedplus'
 --vim.opt.completeopt = 'menuone,noselect'
 
 -- Не автокомментировать новые линии при переходе на новую строку
-vim.cmd('autocmd BufEnter * set fo-=c fo-=r fo-=o')
+--vim.cmd('autocmd BufEnter * set fo-=c fo-=r fo-=o')
 
 -- Нумерация строк
 vim.opt.number = true
@@ -19,7 +19,7 @@ vim.opt.signcolumn = 'yes'
 -- 24-битные цвета
 vim.opt.termguicolors = true
 
--- Отключение переноса строк
+-- Отключение переноса строк при достижении границы окна
 vim.opt_local.wrap = false
 
 -- Отображение колонки курсора
@@ -38,3 +38,8 @@ vim.opt.imsearch = 0
 -- Поддержка буквы "ё"
 vim.opt_local.spell = true
 vim.opt_local.spelllang = 'ru_yo,en_us'
+
+-- Псевдонимы для языков
+vim.g.markdown_fenced_languages = {
+  "ts=typescript"
+}

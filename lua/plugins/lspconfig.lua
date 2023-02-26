@@ -10,13 +10,6 @@ local coq = require('coq')
 
 -- Инициализация LSP-серверов
 
--- Инициализация "psalm" (LSP-сервер для PHP)
---[[ lspconfig.psalm.setup({
-  on_attach = lspconfig_on_attach,
-  coq.lsp_ensure_capabilities(),
-  capabilities = capabilities
-}) ]]
-
 -- Инициализация "intelephense" (LSP-сервер для PHP)
 lspconfig.intelephense.setup({
   on_attach = lspconfig_on_attach,
@@ -24,36 +17,28 @@ lspconfig.intelephense.setup({
   capabilities = capabilities
 })
 
--- Инициализация "vscode-html-language-server" (готовый набросок для HTML)
+-- Инициализация "vscode-html-language-server" (LSP-сервер для HTML)
 lspconfig.html.setup({
   on_attach = lspconfig_on_attach,
   coq.lsp_ensure_capabilities(),
   capabilities = capabilities
 })
 
--- Инициализация "vscode-html-language-server" (готовый набросок для CSS)
+-- Инициализация "vscode-html-language-server" (LSP-сервер для CSS)
 lspconfig.cssls.setup({
   on_attach = lspconfig_on_attach,
   coq.lsp_ensure_capabilities(),
   capabilities = capabilities
 })
 
--- Инициализация "vscode-langservers-extracted" (готовый набросок для JavaScript и PostScript)
-lspconfig.eslint.setup({
-  on_attach = function(client, bufnr)
-    -- Инициализация команды "EslintFixAll"
-    vim.api.nvim_create_autocmd("BufWritePre", {
-      buffer = bufnr,
-      command = "EslintFixAll",
-    })
-
-    -- Вызов глобальной функции
-    lspconfig_on_attach(client, bufnr)
-  end,
-  coq.lsp_ensure_capabilities()
+-- Инициализация "vscode-langservers-extracted" (LSP-сервер для JavaScript и PostScript)
+lspconfig.denols.setup({
+  on_attach = lspconfig_on_attach,
+  coq.lsp_ensure_capabilities(),
+  capabilities = capabilities
 })
 
--- Инициализация "vscode-langservers-extracted" (готовый набросок для JSON)
+-- Инициализация "vscode-langservers-extracted" (LSP-сервер для JSON)
 lspconfig.jsonls.setup({
   on_attach = lspconfig_on_attach,
   coq.lsp_ensure_capabilities(),
