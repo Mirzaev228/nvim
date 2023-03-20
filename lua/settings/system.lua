@@ -19,8 +19,8 @@ vim.opt.signcolumn = 'yes'
 -- 24-битные цвета
 vim.opt.termguicolors = true
 
--- Отключение переноса строк при достижении границы окна
-vim.opt_local.wrap = false
+-- Перенос строк при достижении границы окна
+vim.opt_local.wrap = true
 
 -- Отображение колонки курсора
 vim.opt_local.cursorcolumn = true

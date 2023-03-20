@@ -4,32 +4,32 @@ vim.cmd('packadd packer.nvim')
 return require('packer').startup(function(use)
   -- Менеджер плагинов Packer (автообновление)
   use 'wbthomason/packer.nvim'
-  
+
   -- Быстрая настройка LSP-серверов
   use {
     'neovim/nvim-lspconfig',
-		after = 'coq_nvim',
+    after = 'coq_nvim',
     config = function() require('plugins/lspconfig') end
   }
 
-	-- Прогресс LSP
-	use {
-		'j-hui/fidget.nvim',
-		config = function() require('plugins/fidget') end
-	}
+  -- Прогресс LSP
+  use {
+    'j-hui/fidget.nvim',
+    config = function() require('plugins/fidget') end
+  }
 
-	-- Интерфейс отображающий найденные проблемы LSP-серверами
-	use {
-		'folke/trouble.nvim',
-		requires = 'kyazdani42/nvim-web-devicons',
-		config = function() require('plugins/trouble') end
-	}
+  -- Интерфейс отображающий найденные проблемы LSP-серверами
+  use {
+    'folke/trouble.nvim',
+    requires = 'kyazdani42/nvim-web-devicons',
+    config = function() require('plugins/trouble') end
+  }
 
-	-- Пиктограммы для плагинов
-	use {
-		'onsails/lspkind-nvim',
-		config = function() require('plugins/lspkind') end
-	}
+  -- Пиктограммы для плагинов
+  use {
+    'onsails/lspkind-nvim',
+    config = function() require('plugins/lspkind') end
+  }
 
   -- Пиктограммы для плагинов
   use {
@@ -38,10 +38,10 @@ return require('packer').startup(function(use)
   }
 
   -- Интеграция с GIT
-	use {
-		'lewis6991/gitsigns.nvim',
-		config = function() require('plugins/gitsigns') end
-	}
+  use {
+    'lewis6991/gitsigns.nvim',
+    config = function() require('plugins/gitsigns') end
+  }
 
   -- Обработчик GIT-команд
   use 'tpope/vim-fugitive'
@@ -49,50 +49,50 @@ return require('packer').startup(function(use)
   -- Отображение изменений GIT
   use 'mhinz/vim-signify'
 
-	-- Отрисовка в реальном времени найденных ошибок LSP-серверами
+  -- Отрисовка в реальном времени найденных ошибок LSP-серверами
   use {
-	  'onsails/diaglist.nvim',
-		config = function() require('plugins/diaglist') end
-	}
+    'onsails/diaglist.nvim',
+    config = function() require('plugins/diaglist') end
+  }
 
-	-- Интерфейс строки состояния
+  -- Интерфейс строки состояния
   use {
-		'nvim-lualine/lualine.nvim',
-		requires = 'kyazdani42/nvim-web-devicons',
-		config = function() require('plugins/lualine') end
-	}
-  
-  -- Дополнение для "nvim-lualine/lualine.nvim" с отображением прогресса работы с LSP-серверами 
+    'nvim-lualine/lualine.nvim',
+    requires = 'kyazdani42/nvim-web-devicons',
+    config = function() require('plugins/lualine') end
+  }
+
+  -- Дополнение для "nvim-lualine/lualine.nvim" с отображением прогресса работы с LSP-серверами
   use {
     'arkav/lualine-lsp-progress',
     config = function() require('plugins/lualine-lsp-progress') end
   }
 
-	-- Интерфейс строки буфера файлов
+  -- Интерфейс строки буфера файлов
   use {
-    'akinsho/bufferline.nvim', 
-    tag = "v3.*", 
+    'akinsho/bufferline.nvim',
+    tag = "v3.*",
     requires = 'nvim-tree/nvim-web-devicons',
     config = function() require('plugins/bufferline') end
   }
 
-	-- Интерфейс древовидной структуры файлов
+  -- Интерфейс древовидной структуры файлов
   use {
-		'nvim-neo-tree/neo-tree.nvim',
-		branch = 'v2.x',
-		requires  = {
-			'nvim-lua/plenary.nvim',
-			'kyazdani42/nvim-web-devicons',
-			'MunifTanjim/nui.nvim'
-		},
-		config = function() require('plugins/neo-tree') end
-	}
+    'nvim-neo-tree/neo-tree.nvim',
+    branch   = 'v2.x',
+    requires = {
+      'nvim-lua/plenary.nvim',
+      'kyazdani42/nvim-web-devicons',
+      'MunifTanjim/nui.nvim'
+    },
+    config   = function() require('plugins/neo-tree') end
+  }
 
-	-- Автодополнение скобок и кавычек
-	use {
-		'windwp/nvim-autopairs',
-		config = function()	require('plugins/autopairs') end
-	}
+  -- Автодополнение скобок и кавычек
+  use {
+    'windwp/nvim-autopairs',
+    config = function() require('plugins/autopairs') end
+  }
 
   -- Цвета для отображения найденных ошибок LSP-сервером в случае если другие цвета не найдены
   use 'folke/lsp-colors.nvim'
@@ -136,7 +136,7 @@ return require('packer').startup(function(use)
 
   -- Интерфейс для поиска
   use {
-    'nvim-telescope/telescope.nvim', 
+    'nvim-telescope/telescope.nvim',
     tag = '0.1.1',
     config = function() require('plugins/telescope') end
   }
@@ -160,7 +160,7 @@ return require('packer').startup(function(use)
   -- Интерфейс для отображения тегов в отдельном окне
   use 'preservim/tagbar'
 
-  -- PHP-теги для "preservim/tagbar" (phpctags для ctags) 
+  -- PHP-теги для "preservim/tagbar" (phpctags для ctags)
   use {
     'vim-php/phpctags',
     run = 'composer install'
@@ -177,4 +177,10 @@ return require('packer').startup(function(use)
 
   -- Аналог LSP-сервера для подержки синтаксиса nginx
   use 'chr4/nginx.vim'
+
+  -- Форматировщик Prettier
+  use {
+    'prettier/vim-prettier',
+    run = 'yarn install --frozen-lockfile --production'
+  }
 end)
