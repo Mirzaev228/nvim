@@ -10,7 +10,7 @@ local coq = require('coq')
 
 -- Инициализация LSP-серверов
 
--- Инициализация "intelephense" (LSP-сервер для PHP)
+-- Инициализация "bmewburn/vscode-intelephense" (LSP-сервер для PHP)
 lspconfig.intelephense.setup({
   on_attach = lspconfig_on_attach,
   coq.lsp_ensure_capabilities(),
@@ -46,7 +46,7 @@ lspconfig.emmet_ls.setup({
   capabilities = capabilities
 })
 
--- Инициализация "hrsh7th/vscode-langservers-extracted" (LSP-сервер для JS, вспомогательный для CSS)
+-- Инициализация "hrsh7th/vscode-langservers-extracted" (LSP-сервер для CSS)
 lspconfig.cssls.setup({
   settings = {
     css = {
