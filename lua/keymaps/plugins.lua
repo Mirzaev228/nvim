@@ -15,7 +15,7 @@ vim.keymap.set('n', '<space>d0', '<cmd>lua require(\'diaglist\').open_buffer_dia
 
 --[[ noib3/nvim-cokeline ]]
 -- Переключение вкладок
-vim.keymap.set('n', '<tab>', '<Plug>(cokeline-focus-next)', { noremap = true, silent = true })
+vim.keymap.set('n', '<tab>', '<plug>(cokeline-focus-next)', { noremap = true, silent = true })
 vim.keymap.set('n', '<s-tab>', '<Plug>(cokeline-focus-prev)', { noremap = true, silent = true })
 
 
@@ -28,68 +28,81 @@ vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, { noremap = true, sil
 
 -- Инициализация только после того, как LSP-сервер подключится к текущему буферу
 lspconfig_on_attach = function(client, bufnr)
-  -- Активация завершения
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+	-- Активация завершения
+	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { noremap = true, silent = true, buffer = bufnr })
-  vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { noremap = true, silent = true, buffer = bufnr })
-  vim.keymap.set('n', 'K', vim.lsp.buf.hover, { noremap = true, silent = true, buffer = bufnr })
-  vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { noremap = true, silent = true, buffer = bufnr })
-  vim.keymap.set('n', '<c-k>', vim.lsp.buf.signature_help, { noremap = true, silent = true, buffer = bufnr })
-  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, { noremap = true, silent = true, buffer = bufnr })
-  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, { noremap = true, silent = true, buffer = bufnr })
-  vim.keymap.set('n', '<space>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
-    { noremap = true, silent = true, buffer = bufnr })
-  vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, { noremap = true, silent = true, buffer = bufnr })
-  vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, { noremap = true, silent = true, buffer = bufnr })
-  vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, { noremap = true, silent = true, buffer = bufnr })
-  vim.keymap.set('n', 'gr', vim.lsp.buf.references, { noremap = true, silent = true, buffer = bufnr })
-
-  -- Форматирование
-  vim.keymap.set({ 'n', 'v', 't' }, 'F', function()
-      vim.lsp.buf.format { async = true }
-      vim.api.nvim_command('PrettierAsync')
-    end,
-    { noremap = true, silent = true, buffer = bufnr })
+	vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { noremap = true, silent = true, buffer = bufnr })
+	vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { noremap = true, silent = true, buffer = bufnr })
+	vim.keymap.set('n', 'K', vim.lsp.buf.hover, { noremap = true, silent = true, buffer = bufnr })
+	vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, { noremap = true, silent = true, buffer = bufnr })
+	vim.keymap.set('n', '<c-k>', vim.lsp.buf.signature_help, { noremap = true, silent = true, buffer = bufnr })
+	vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, { noremap = true, silent = true, buffer = bufnr })
+	vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, { noremap = true, silent = true, buffer = bufnr })
+	vim.keymap.set('n', '<space>wl', function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
+		{ noremap = true, silent = true, buffer = bufnr })
+	vim.keymap.set('n', '<space>D', vim.lsp.buf.type_definition, { noremap = true, silent = true, buffer = bufnr })
+	vim.keymap.set('n', '<space>rn', vim.lsp.buf.rename, { noremap = true, silent = true, buffer = bufnr })
+	vim.keymap.set('n', '<space>ca', vim.lsp.buf.code_action, { noremap = true, silent = true, buffer = bufnr })
+	vim.keymap.set('n', 'gr', vim.lsp.buf.references, { noremap = true, silent = true, buffer = bufnr })
 end
+
+-- Formatting
+vim.keymap.set({ 'n', 'v', 't' }, 'F', function()
+		if (vim.bo.filetype == 'nginx') then
+			-- NGINX configuration file
+
+			vim.api.nvim_exec('w', false)
+			vim.api.nvim_exec('! nginxbeautifier -i %', false)
+			vim.api.nvim_exec('redraw', false)
+		elseif (vim.lsp.buf.server_ready()) then
+			-- LSP-server is ready
+
+			vim.lsp.buf.format { async = true }
+		else
+			-- LSP-server not found
+
+			vim.api.nvim_exec('PrettierAsync', false)
+		end
+	end,
+	{ noremap = true, silent = true, buffer = bufnr })
 
 
 --[[ lewis6991/gitsigns.nvim ]]
 -- Инициализация только после того, как LSP-сервер подключится к текущему буферу
 gitsigns_on_attach = function(bufnr)
-  -- Инициализация ярлыка
-  local gs = package.loaded.gitsigns
+	-- Инициализация ярлыка
+	local gs = package.loaded.gitsigns
 
-  -- Навигация
-  vim.keymap.set('n', ']c', function()
-    if vim.wo.diff then return ']c' end
-    vim.schedule(function() gs.next_hunk() end)
-    return '<Ignore>'
-  end, { expr = true, buffer = bufnr })
+	-- Навигация
+	vim.keymap.set('n', ']c', function()
+		if vim.wo.diff then return ']c' end
+		vim.schedule(function() gs.next_hunk() end)
+		return '<Ignore>'
+	end, { expr = true, buffer = bufnr })
 
-  -- Навигация
-  vim.keymap.set('n', '[c', function()
-    if vim.wo.diff then return '[c' end
-    vim.schedule(function() gs.prev_hunk() end)
-    return '<Ignore>'
-  end, { expr = true, buffer = bufnr })
+	-- Навигация
+	vim.keymap.set('n', '[c', function()
+		if vim.wo.diff then return '[c' end
+		vim.schedule(function() gs.prev_hunk() end)
+		return '<Ignore>'
+	end, { expr = true, buffer = bufnr })
 
-  vim.keymap.set('n', '<leader>hs', '<cmd>Gitsigns stage_hunk<cr>', { buffer = bufnr })
-  vim.keymap.set('v', '<leader>hs', '<cmd>Gitsigns stage_hunk<cr>', { buffer = bufnr })
-  vim.keymap.set('n', '<leader>hr', '<cmd>Gitsigns reset_hunk<cr>', { buffer = bufnr })
-  vim.keymap.set('v', '<leader>hr', '<cmd>Gitsigns reset_hunk<cr>', { buffer = bufnr })
-  vim.keymap.set('n', '<leader>hS', gs.stage_buffer, { buffer = bufnr })
-  vim.keymap.set('n', '<leader>hu', gs.undo_stage_hunk, { buffer = bufnr })
-  vim.keymap.set('n', '<leader>hR', gs.reset_buffer, { buffer = bufnr })
-  vim.keymap.set('n', '<leader>hp', gs.preview_hunk, { buffer = bufnr })
-  vim.keymap.set('n', '<leader>hb', function() gs.blame_line { full = true } end, { buffer = bufnr })
-  vim.keymap.set('n', '<leader>tb', gs.toggle_current_line_blame, { buffer = bufnr })
-  vim.keymap.set('n', '<leader>hd', gs.diffthis, { buffer = bufnr })
-  vim.keymap.set('n', '<leader>hD', function() gs.diffthis('~') end, { buffer = bufnr })
-  vim.keymap.set('n', '<leader>td', gs.toggle_deleted, { buffer = bufnr })
+	vim.keymap.set('n', '<leader>hs', '<cmd>Gitsigns stage_hunk<cr>', { buffer = bufnr })
+	vim.keymap.set('v', '<leader>hs', '<cmd>Gitsigns stage_hunk<cr>', { buffer = bufnr })
+	vim.keymap.set('n', '<leader>hr', '<cmd>Gitsigns reset_hunk<cr>', { buffer = bufnr })
+	vim.keymap.set('v', '<leader>hr', '<cmd>Gitsigns reset_hunk<cr>', { buffer = bufnr })
+	vim.keymap.set('n', '<leader>hS', gs.stage_buffer, { buffer = bufnr })
+	vim.keymap.set('n', '<leader>hu', gs.undo_stage_hunk, { buffer = bufnr })
+	vim.keymap.set('n', '<leader>hR', gs.reset_buffer, { buffer = bufnr })
+	vim.keymap.set('n', '<leader>hp', gs.preview_hunk, { buffer = bufnr })
+	vim.keymap.set('n', '<leader>hb', function() gs.blame_line { full = true } end, { buffer = bufnr })
+	vim.keymap.set('n', '<leader>tb', gs.toggle_current_line_blame, { buffer = bufnr })
+	vim.keymap.set('n', '<leader>hd', gs.diffthis, { buffer = bufnr })
+	vim.keymap.set('n', '<leader>hD', function() gs.diffthis('~') end, { buffer = bufnr })
+	vim.keymap.set('n', '<leader>td', gs.toggle_deleted, { buffer = bufnr })
 
-  vim.keymap.set('o', 'ih', '<cmd><c-U>Gitsigns select_hunk<cr>', { buffer = bufnr })
-  vim.keymap.set('x', 'ih', '<cmd><c-U>Gitsigns select_hunk<cr>', { buffer = bufnr })
+	vim.keymap.set('o', 'ih', '<cmd><c-U>Gitsigns select_hunk<cr>', { buffer = bufnr })
+	vim.keymap.set('x', 'ih', '<cmd><c-U>Gitsigns select_hunk<cr>', { buffer = bufnr })
 end
 
 
@@ -118,20 +131,20 @@ vim.keymap.set('n', '<leader>fh', builtin.help_tags, { noremap = true, silent = 
 --vim.keymap.set('i', '<s-tab>', [[pumvisible() ? "<c-p>" : "<tab>"]], {expr = true, noremap = true})
 
 _G.PairIT = function()
-  local autopairs = {
-    ['('] = ')',
-    ['['] = ']',
-    ['{'] = '}',
-    ['<'] = '>',
-    [ [=[']=] ] = [=[']=],
-    [ [=["]=] ] = [=["]=],
-  }
-  local set_pairs = vim.keymap.set
-  for k, v in pairs(autopairs) do
-    set_pairs('i', k, function()
-      return k .. v .. '<Left>'
-    end, { expr = true, noremap = true })
-  end
+	local autopairs = {
+		['('] = ')',
+		['['] = ']',
+		['{'] = '}',
+		['<'] = '>',
+		[ [=[']=] ] = [=[']=],
+		[ [=["]=] ] = [=["]=],
+	}
+	local set_pairs = vim.keymap.set
+	for k, v in pairs(autopairs) do
+		set_pairs('i', k, function()
+			return k .. v .. '<Left>'
+		end, { expr = true, noremap = true })
+	end
 end
 
 
