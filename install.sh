@@ -178,6 +178,10 @@ if test (string match -ri 'y' "$RESPONSE")
 	# Установка
 	curl -fsSL https://deno.land/install.sh | sh 1> /dev/null 2> /dev/null 
 
+	# TODO доделать нормально
+	set -g DENO_INSTALL="$HOME/.deno"
+	fish_add_path $DENO_INSTALL/bin
+
 	print LSP_DENO_INSTALLED
 end
 
@@ -193,7 +197,7 @@ if test (string match -ri 'y' "$RESPONSE")
 	git clone https://github.com/LuaLS/lua-language-server 1> /dev/null 2> /dev/null 
 	cd lua-language-server
 	fish ./make.sh 1> /dev/null 2> /dev/null 
-  fish_add_path $(realpath ./)/bin 1> /dev/null 2> /dev/null 
+  fish_add_path (realpath ./)/bin 1> /dev/null 2> /dev/null 
 
 	print LSP_LUA_INSTALLED
 end
