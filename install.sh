@@ -1,5 +1,13 @@
 #!/usr/bin/env fish
 
+# need to rewrite in future
+sudo apt install npm python3-venv ruby-dev
+pip3 install --upgrade pynvim
+sudo gem install neovim
+
+# Install NeoVim module for NPM
+sudo npm i -g neovim
+
 # Инициализация текста сообщений в зависимости от установленного языка в оболочке
 if test (string match -ri "ru" "$LANG")
   function print -a TYPE PARAM1 PARAM2 -d "Текст сообщений"
@@ -38,6 +46,10 @@ if test (string match -ri "ru" "$LANG")
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[ЗАДАЧА] "; set_color white; echo "Установить форматировщик для NGINX? (\"vasilevich/nginxbeautifier\") (y/N) ";
 			case FORMATTER_NGINX_INSTALLED
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[РАБОТА] "; set_color white; echo "Установлен форматировщик для NGINX (\"vasilevich/nginxbeautifier\")";
+			case FORMATTER_PRETTIER_INSTALL
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[ЗАДАЧА] "; set_color white; echo "Установить форматировщик Prettier? (\"prettier/vim-prettier\") (y/N) ";
+			case FORMATTER_PRETTIER_INSTALLED
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[РАБОТА] "; set_color white; echo "Установлен форматировщик Prettier (\"prettier/vim-prettier\")";
     end
   end
 else
@@ -77,7 +89,11 @@ else
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[TASK] "; set_color white; echo "Install the formatter for NGINX? (\"vasilevich/nginxbeautifier\") (y/N) ";
 			case FORMATTER_NGINX_INSTALLED
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[WORK] "; set_color white; echo "Installed the formatter for NGINX (\"vasilevich/nginxbeautifier\")";
-		end
+			case FORMATTER_PRETTIER_INSTALL
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[TASK] "; set_color white; echo "Install the formatter Prettier? (\"prettier/vim-prettier\") (y/N) ";
+			case FORMATTER_PRETTIER_INSTALLED
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[WORK] "; set_color white; echo "Installed the formatter Prettier (\"prettier/vim-prettier\")";
+	end
 	end
 end
 
@@ -193,11 +209,13 @@ if test (string match -ri 'y' "$RESPONSE")
 	# Запрошена установка "luals/lua-language-server"
 
 	# Установка
+	sudo apt install ninja-build
 	cd ~/
+	rm -rf lua-language-server 1> /dev/null 2> /dev/null
 	git clone https://github.com/LuaLS/lua-language-server 1> /dev/null 2> /dev/null 
 	cd lua-language-server
 	fish ./make.sh 1> /dev/null 2> /dev/null 
-  fish_add_path (realpath ./)/bin 1> /dev/null 2> /dev/null 
+ 	fish_add_path $HOME/lua-language-server/bin 1> /dev/null 2> /dev/null 
 
 	print LSP_LUA_INSTALLED
 end
@@ -213,4 +231,16 @@ if test (string match -ri 'y' "$RESPONSE")
 	npm i nginxbeautifier 1> /dev/null 2> /dev/null 
 
 	print FORMATTER_NGINX_INSTALLED
+end
+
+# Installation request
+set RESPONSE (read -n 1 -p "print FORMATTER_PRETTIER_INSTALL")
+bind -e y
+
+if test (string match -ri 'y' "$RESPONSE")
+	# Accepted installation of "prettier/vim-prettier"
+
+	npm i prettier 1> /dev/null 2> /dev/null
+
+	 print FORMATTER_PRETTIER_INSTALLED
 end

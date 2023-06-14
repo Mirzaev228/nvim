@@ -181,7 +181,6 @@ return require('packer').startup(function(use)
 	-- Форматировщик Prettier
   use {
       'prettier/vim-prettier',
-      run = 'yarn install --frozen-lockfile --production',
-      config = function() require('plugins/vim-prettier') end
+      run = 'npm i',
   }
 end)
