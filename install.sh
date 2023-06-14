@@ -1,4 +1,4 @@
-#!/usr/bin/fish
+#!/usr/bin/env fish
 
 # Инициализация текста сообщений в зависимости от установленного языка в оболочке
 if test (string match -ri "ru" "$LANG")
