@@ -166,7 +166,7 @@ return require('packer').startup(function(use)
 		run = 'composer install'
 	}
 
-	-- Аналог LSP-сервера для поддержки оболочки fish
+	-- LSP-сервер для Fish Shell 
 	use 'dag/vim-fish'
 
 	-- Цветовая тема
@@ -181,6 +181,6 @@ return require('packer').startup(function(use)
 	-- Форматировщик Prettier
   use {
       'prettier/vim-prettier',
-      run = 'npm i',
+      run = 'yarn install --frozen-lockfile --production'
   }
 end)
