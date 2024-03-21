@@ -1,7 +1,7 @@
 #!/usr/bin/env fish
 
 # need to rewrite in future
-sudo apt install npm python3-venv ruby-dev
+sudo apt install npm python3-venv ruby-dev -y
 pip3 install --upgrade pynvim
 sudo gem install neovim
 
@@ -50,6 +50,12 @@ if test (string match -ri "ru" "$LANG")
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[ЗАДАЧА] "; set_color white; echo "Установить форматировщик Prettier? (\"prettier/vim-prettier\") (y/N) ";
 			case FORMATTER_PRETTIER_INSTALLED
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[РАБОТА] "; set_color white; echo "Установлен форматировщик Prettier (\"prettier/vim-prettier\")";
+			case FONT_PATCH
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[ЗАДАЧА] "; set_color white; echo "Пропатчить шрифт для иконок? (\"nvim-tree/nvim-web-devicons\") (y/N) ";
+			case FONT_CHOOSE
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[ЗАДАЧА] "; set_color white; echo "Выбери шрифт (путь) ";
+			case FONT_PATCHED
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[РАБОТА] "; set_color white; echo "Пропатчен шрифт для иконок (\"nvim-tree/nvim-web-devicons\")";
     end
   end
 else
@@ -93,6 +99,12 @@ else
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[TASK] "; set_color white; echo "Install the formatter Prettier? (\"prettier/vim-prettier\") (y/N) ";
 			case FORMATTER_PRETTIER_INSTALLED
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[WORK] "; set_color white; echo "Installed the formatter Prettier (\"prettier/vim-prettier\")";
+			case FONT_PATCH
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[TASK] "; set_color white; echo "Patch your font for icons? (\"nvim-tree/nvim-web-devicons\") (y/N) ";
+			case FONT_CHOOSE
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[TASK] "; set_color white; echo "Choose a font (path)";
+			case FONT_PATCHED
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[WORK] "; set_color white; echo "Pathed the font for icons (\"nvim-tree/nvim-web-devicons\")";
 	end
 	end
 end
@@ -202,14 +214,14 @@ if test (string match -ri 'y' "$RESPONSE")
 end
 
 # Installation request
-set RESPONSE (read -n 1 -p "print LSP_LUA_INSTALL")
+set RESPONSE (read -n 1 -p "print LSP_LUA_INSTALL")GG
 bind -e y
 
 if test (string match -ri 'y' "$RESPONSE")
 	# Запрошена установка "luals/lua-language-server"
 
 	# Установка
-	sudo apt install ninja-build
+	sudo apt install ninja-build -y
 	cd ~/
 	rm -rf lua-language-server 1> /dev/null 2> /dev/null
 	git clone https://github.com/LuaLS/lua-language-server 1> /dev/null 2> /dev/null 
@@ -241,6 +253,31 @@ if test (string match -ri 'y' "$RESPONSE")
 	# Accepted installation of "prettier/vim-prettier"
 
 	npm i prettier 1> /dev/null 2> /dev/null
+G
+	print FORMATTER_PRETTIER_INSTALLED
+end
 
-	 print FORMATTER_PRETTIER_INSTALLED
+# Installation request
+set RESPONSE (read -n 1 -p "print FONT_PATCH")
+bind -e y
+
+if test (string match -ri 'y' "$RESPONSE")
+	# Accepted to patching the font
+
+	cd ~/
+	wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FontPatcher.zip
+	unzip FontPatcher.zip -d font_patcher
+	cd font_patcher
+
+	#if not type -q python && type -q python3
+	if not type -q python
+		# alias python=python3
+		sudo apt install python-is-python3 -y
+	end
+
+	sudo apt install fontforge python3-fontforge -y
+
+	./font-patcher (read -p "print FONT_CHOOSE")
+
+	print FONT_PATCHED
 end

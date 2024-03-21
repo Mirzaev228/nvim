@@ -1,5 +1,6 @@
 require('nvim-web-devicons').setup {
   override = {},
   color_icons = true,
-  default = false
+  default = true,
+	strict = true
 }
