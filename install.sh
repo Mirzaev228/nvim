@@ -50,12 +50,18 @@ if test (string match -ri "ru" "$LANG")
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[ЗАДАЧА] "; set_color white; echo "Установить форматировщик Prettier? (\"prettier/vim-prettier\") (y/N) ";
 			case FORMATTER_PRETTIER_INSTALLED
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[РАБОТА] "; set_color white; echo "Установлен форматировщик Prettier (\"prettier/vim-prettier\")";
+			case FONT_INSTALL
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[ЗАДАЧА] "; set_color white; echo "Установить шрифт "; set_color cyan; echo "FiraCode"; set_color white; echo " ? (y/N) ";
+			case FONT_INSTALLED
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[РАБОТА] "; set_color white; echo "Установлен шрифт "; set_color cyan; echo "FiraCode"; set_color white; echo " (выбери его в настройках твоего эмулятора терминала)";
+			case FONTS
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color magenta; echo -n "[ДАННЫЕ] "; set_color white; echo "Шрифты для GNOME эмулятора терминала: https://www.nerdfonts.com/font-downloads (моя рекомендация - "; set_color cyan; echo "FiraCode"; set_color white; echo ")";
 			case FONT_PATCH
-        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[ЗАДАЧА] "; set_color white; echo "Пропатчить шрифт для иконок? (\"nvim-tree/nvim-web-devicons\") (y/N) ";
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[ЗАДАЧА] "; set_color white; echo "Пропатчить шрифт для иконок ? (\"nvim-tree/nvim-web-devicons\") (y/N) ";
 			case FONT_CHOOSE
-        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[ЗАДАЧА] "; set_color white; echo "Выбери шрифт (путь) ";
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[ЗАДАЧА] "; set_color white; echo "Выбери шрифт (путь) ";
 			case FONT_PATCHED
-        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[РАБОТА] "; set_color white; echo "Пропатчен шрифт для иконок (\"nvim-tree/nvim-web-devicons\")";
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[РАБОТА] "; set_color white; echo "Пропатчен шрифт для иконок  (\"nvim-tree/nvim-web-devicons\")";
     end
   end
 else
@@ -99,12 +105,18 @@ else
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[TASK] "; set_color white; echo "Install the formatter Prettier? (\"prettier/vim-prettier\") (y/N) ";
 			case FORMATTER_PRETTIER_INSTALLED
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[WORK] "; set_color white; echo "Installed the formatter Prettier (\"prettier/vim-prettier\")";
+			case FONT_INSTALL
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[TASK] "; set_color white; echo "Install "; set_color cyan; echo "FiraCode"; set_color white; echo " font ? (y/N) ";
+			case FONT_INSTALLED
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[WORK] "; set_color white; echo "Installed "; set_color cyan; echo "FiraCode"; set_color white; echo " font (select it in your terminal emulator settings)";
+			case FONTS
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color magenta; echo -n "[INFO] "; set_color white; echo "Fonts for GNOME terminal emulator: https://www.nerdfonts.com/font-downloads (my recommendation - "; set_color cyan; echo "FiraCode"; set_color white; echo ")";
 			case FONT_PATCH
-        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[TASK] "; set_color white; echo "Patch your font for icons? (\"nvim-tree/nvim-web-devicons\") (y/N) ";
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[TASK] "; set_color white; echo "Patch your font for icons ? (\"nvim-tree/nvim-web-devicons\") (y/N) ";
 			case FONT_CHOOSE
-        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[TASK] "; set_color white; echo "Choose a font (path)";
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[TASK] "; set_color white; echo "Choose a font (path)";
 			case FONT_PATCHED
-        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[WORK] "; set_color white; echo "Pathed the font for icons (\"nvim-tree/nvim-web-devicons\")";
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[WORK] "; set_color white; echo "Pathed the font for icons  (\"nvim-tree/nvim-web-devicons\")";
 	end
 	end
 end
@@ -257,27 +269,59 @@ G
 	print FORMATTER_PRETTIER_INSTALLED
 end
 
+print FONTS
+
 # Installation request
-set RESPONSE (read -n 1 -p "print FONT_PATCH")
+set RESPONSE (read -n 1 -p "print FONT_INSTALL")
 bind -e y
-
 if test (string match -ri 'y' "$RESPONSE")
-	# Accepted to patching the font
+	# Accepted installation of the FiraCode font
+	
+	mkdir -p ~/.local/share/fonts/FiraCode
+	cd ~/.local/share/fonts/FiraCode
+	wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/FiraCode.zip"
+	unzip FiraCode.zip
+	rm FiraCode.zip
+	fc-cache -f -v
 
-	cd ~/
-	wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FontPatcher.zip
-	unzip FontPatcher.zip -d font_patcher
-	cd font_patcher
+	print FONT_INSTALLED
 
-	#if not type -q python && type -q python3
-	if not type -q python
-		# alias python=python3
-		sudo apt install python-is-python3 -y
+	if (type -q dconf)
+		# GNOME
+
+		# if (string match (lsb_release -i | grep -Po '[^\s]*$') Ubuntu))
+		# 	sudo apt-get install dconf
+		# end
 	end
 
-	sudo apt install fontforge python3-fontforge -y
+	# dconf write /apps/gnome-terminal/profiles/Default/font FiraCodeNerdFontMono-Medium.ttf
+	# gconftool-2 --set /apps/gnome-terminal/profiles/Default/use_system_font --type=boolean false
+	# gconftool-2 --set /apps/gnome-terminal/profiles/Default/font --type string FiraCodeNerdFontMono-Medium.ttf
+else
+	# Denied installation of the FiraCode font
+	
+	# Installation request
+	set RESPONSE (read -n 1 -p "print FONT_PATCH")
+	bind -e y
 
-	./font-patcher (read -p "print FONT_CHOOSE")
+	if test (string match -ri 'y' "$RESPONSE")
+		# Accepted to patching the font
 
-	print FONT_PATCHED
+		cd ~/
+		wget "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FontPatcher.zip"
+		unzip FontPatcher.zip -d font_patcher
+		cd font_patcher
+
+		#if not type -q python && type -q python3
+		if not type -q python
+			# alias python=python3
+			sudo apt install python-is-python3 -y
+		end
+
+		sudo apt install fontforge python3-fontforge -y
+
+		./font-patcher (read -p "print FONT_CHOOSE")
+
+		print FONT_PATCHED
+	end
 end
