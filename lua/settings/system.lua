@@ -26,7 +26,9 @@ vim.opt_local.wrap = true
 vim.opt_local.cursorcolumn = true
 
 -- Выбор цветовой темы
-vim.cmd.colorscheme('default')
+-- vim.cmd.colorscheme('default')
+-- vim.cmd.colorscheme('koehler')
+vim.cmd.colorscheme('vim')
 
 -- Добавление ru_RU (переключать через <c-^>)
 vim.opt.keymap = 'russian-jcukenwin'

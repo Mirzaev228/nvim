@@ -1,7 +1,9 @@
 #!/usr/bin/env fish
 
 # need to rewrite in future
-sudo apt install npm python3-venv ruby-dev -y
+sudo apt install -y npm python3-venv ruby-dev pkg-config
+python3 -m pip install --upgrade pip
+fish_add_path ~/.local/bin
 pip3 install --upgrade pynvim
 sudo gem install neovim
 
@@ -51,11 +53,11 @@ if test (string match -ri "ru" "$LANG")
 			case FORMATTER_PRETTIER_INSTALLED
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[РАБОТА] "; set_color white; echo "Установлен форматировщик Prettier (\"prettier/vim-prettier\")";
 			case FONT_INSTALL
-        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[ЗАДАЧА] "; set_color white; echo "Установить шрифт "; set_color cyan; echo "FiraCode"; set_color white; echo " ? (y/N) ";
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[ЗАДАЧА] "; set_color white; echo "Установить шрифт "(set_color cyan)"FiraCode"(set_color white)"? (y/N) ";
 			case FONT_INSTALLED
-        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[РАБОТА] "; set_color white; echo "Установлен шрифт "; set_color cyan; echo "FiraCode"; set_color white; echo " (выбери его в настройках твоего эмулятора терминала)";
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[РАБОТА] "; set_color white; echo "Установлен шрифт "(set_color cyan)"FiraCode"(set_color white)" (выбери его в настройках твоего эмулятора терминала)";
 			case FONTS
-        set_color yellow; echo -n "[mirzaev/nvim] "; set_color magenta; echo -n "[ДАННЫЕ] "; set_color white; echo "Шрифты для GNOME эмулятора терминала: https://www.nerdfonts.com/font-downloads (моя рекомендация - "; set_color cyan; echo "FiraCode"; set_color white; echo ")";
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color magenta; echo -n "[ДАННЫЕ] "; set_color white; echo "Шрифты для GNOME эмулятора терминала: https://www.nerdfonts.com/font-downloads (моя рекомендация - "(set_color cyan)"FiraCode"(set_color white)")";
 			case FONT_PATCH
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[ЗАДАЧА] "; set_color white; echo "Пропатчить шрифт для иконок ? (\"nvim-tree/nvim-web-devicons\") (y/N) ";
 			case FONT_CHOOSE
@@ -106,11 +108,11 @@ else
 			case FORMATTER_PRETTIER_INSTALLED
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[WORK] "; set_color white; echo "Installed the formatter Prettier (\"prettier/vim-prettier\")";
 			case FONT_INSTALL
-        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[TASK] "; set_color white; echo "Install "; set_color cyan; echo "FiraCode"; set_color white; echo " font ? (y/N) ";
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[TASK] "; set_color white; echo "Install "(set_color cyan)"FiraCode"(set_color white)" font? (y/N) ";
 			case FONT_INSTALLED
-        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[WORK] "; set_color white; echo "Installed "; set_color cyan; echo "FiraCode"; set_color white; echo " font (select it in your terminal emulator settings)";
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[WORK] "; set_color white; echo "Installed "(set_color cyan)"FiraCode"(set_color white)" font (select it in your terminal emulator settings)";
 			case FONTS
-        set_color yellow; echo -n "[mirzaev/nvim] "; set_color magenta; echo -n "[INFO] "; set_color white; echo "Fonts for GNOME terminal emulator: https://www.nerdfonts.com/font-downloads (my recommendation - "; set_color cyan; echo "FiraCode"; set_color white; echo ")";
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color magenta; echo -n "[INFO] "; set_color white; echo "Fonts for GNOME terminal emulator: https://www.nerdfonts.com/font-downloads (my recommendation - "(set_color cyan)"FiraCode"(set_color white)")";
 			case FONT_PATCH
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[TASK] "; set_color white; echo "Patch your font for icons ? (\"nvim-tree/nvim-web-devicons\") (y/N) ";
 			case FONT_CHOOSE
@@ -164,7 +166,7 @@ if test (string match -ri 'y' "$RESPONSE")
 	# Запрошена установка "bmewburn/vscode-intelephense"
 
 	# Установка
-	npm i intelephense 1> /dev/null 2> /dev/null 
+	sudo npm i -g intelephense 1> /dev/null 2> /dev/null
 
 	print LSP_INTELEPHENSE_INSTALLED
 end
@@ -177,7 +179,7 @@ if test (string match -ri 'y' "$RESPONSE")
 	# Запрошена установка "hrsh7th/vscode-langservers-extracted"
 
 	# Установка
-	npm i vscode-langservers-extracted 1> /dev/null 2> /dev/null 
+	sudo npm i -g vscode-langservers-extracted 1> /dev/null 2> /dev/null
 
 	print LSP_VSCODE-LANGSERVERS_INSTALLED
 end
@@ -190,7 +192,7 @@ if test (string match -ri 'y' "$RESPONSE")
 	# Запрошена установка "aca/emmet-ls"
 
 	# Установка
-	npm i emmet-ls 1> /dev/null 2> /dev/null 
+	sudo npm i -g emmet-ls 1> /dev/null 2> /dev/null
 
 	print LSP_EMMET_INSTALLED
 end
@@ -203,7 +205,7 @@ if test (string match -ri 'y' "$RESPONSE")
 	# Запрошена установка "antonk52/cssmodules-language-server"
 
 	# Установка
-	npm i cssmodules-language-server 1> /dev/null 2> /dev/null 
+	sudo npm i -g cssmodules-language-server 1> /dev/null 2> /dev/null
 
 	print LSP_CSSMODULES_INSTALLED
 end
@@ -252,7 +254,7 @@ if test (string match -ri 'y' "$RESPONSE")
 	# Запрошена установка "vasilevich/nginxbeautifier"
 
 	# Установка
-	npm i nginxbeautifier 1> /dev/null 2> /dev/null 
+	sudo npm i -g nginxbeautifier 1> /dev/null 2> /dev/null
 
 	print FORMATTER_NGINX_INSTALLED
 end
@@ -265,7 +267,8 @@ if test (string match -ri 'y' "$RESPONSE")
 	# Accepted installation of "prettier/vim-prettier"
 
 	npm i prettier 1> /dev/null 2> /dev/null
-G
+	sudo npm i -g prettier 1> /dev/null 2> /dev/null
+
 	print FORMATTER_PRETTIER_INSTALLED
 end
 
@@ -286,7 +289,7 @@ if test (string match -ri 'y' "$RESPONSE")
 
 	print FONT_INSTALLED
 
-	if (type -q dconf)
+	if type -q dconf
 		# GNOME
 
 		# if (string match (lsb_release -i | grep -Po '[^\s]*$') Ubuntu))

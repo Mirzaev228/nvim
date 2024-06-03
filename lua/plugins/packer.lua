@@ -71,7 +71,7 @@ return require('packer').startup(function(use)
 	-- Интерфейс строки буфера файлов
 	use {
 		'akinsho/bufferline.nvim',
-		tag = "v3.*",
+		-- tag = "v3.*",
 		requires = 'nvim-tree/nvim-web-devicons',
 		config = function() require('plugins/bufferline') end
 	}
@@ -79,7 +79,7 @@ return require('packer').startup(function(use)
 	-- Интерфейс древовидной структуры файлов
 	use {
 		'nvim-neo-tree/neo-tree.nvim',
-		branch   = 'v2.x',
+		-- branch   = 'v2.x',
 		requires = {
 			'nvim-lua/plenary.nvim',
 			'kyazdani42/nvim-web-devicons',
@@ -137,7 +137,7 @@ return require('packer').startup(function(use)
 	-- Интерфейс для поиска
 	use {
 		'nvim-telescope/telescope.nvim',
-		tag = '0.1.1',
+		-- tag = '0.1.1',
 		config = function() require('plugins/telescope') end
 	}
 
@@ -181,6 +181,8 @@ return require('packer').startup(function(use)
 	-- Форматировщик Prettier
   use {
       'prettier/vim-prettier',
+			branch = 'master',
+			-- run = 'sudo npm i -g',
       run = 'yarn install --frozen-lockfile --production'
   }
 end)
