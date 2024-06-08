@@ -30,7 +30,7 @@ vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, { noremap = true, sil
 lspconfig_on_attach = function(client, bufnr)
 	-- Активация завершения
 	vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-	vim.keymap.set({ 'n', 'v', 't' }, 'F', function() vim.lsp.buf.format { async = true } end, { noremap = true, silent = true, buffer = bufnr })
+	-- vim.keymap.set({ 'n', 'v', 't' }, 'F', function() vim.lsp.buf.format { async = true } end, { noremap = true, silent = true, buffer = bufnr })
 
 	vim.keymap.set('n', 'gD', vim.lsp.buf.declaration, { noremap = true, silent = true, buffer = bufnr })
 	vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { noremap = true, silent = true, buffer = bufnr })
@@ -55,18 +55,17 @@ vim.keymap.set({ 'n', 'v', 't' }, 'F', function()
 			vim.api.nvim_exec('w', false)
 			vim.api.nvim_exec('! nginxbeautifier -i %', false)
 			vim.api.nvim_exec('redraw', false)
-		elseif (vim.lsp.buf.server_ready()) then
-			-- LSP-server is ready
+		elseif (not (vim.diff(vim.inspect(vim.lsp.buf_get_clients()), '{}') == '')) then
+			-- LSP-server clients is ready
 
 			vim.lsp.buf.format { async = true }
 		else
-			-- LSP-server not found
+			-- LSP-server clients not found
 
 			vim.api.nvim_exec('PrettierAsync', false)
 		end
 	end,
 	{ noremap = true, silent = true, buffer = bufnr })
-
 
 --[[ lewis6991/gitsigns.nvim ]]
 -- Инициализация только после того, как LSP-сервер подключится к текущему буферу

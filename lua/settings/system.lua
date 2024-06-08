@@ -5,7 +5,7 @@ vim.opt.clipboard = 'unnamedplus'
 --vim.opt.completeopt = 'menuone,noselect'
 
 -- Не автокомментировать новые линии при переходе на новую строку
---vim.cmd('autocmd BufEnter * set fo-=c fo-=r fo-=o')
+vim.cmd('autocmd BufEnter * set fo-=c fo-=r fo-=o')
 
 -- Нумерация строк
 vim.opt.number = true

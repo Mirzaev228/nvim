@@ -1,14 +1,29 @@
 #!/usr/bin/env fish
 
-# need to rewrite in future
-sudo apt install -y npm python3-venv ruby-dev pkg-config
-python3 -m pip install --upgrade pip
-fish_add_path ~/.local/bin
-pip3 install --upgrade pynvim
-sudo gem install neovim
+# Initializing the flags
+set -l options (fish_opt -s v -l verbose)
+set options $options (fish_opt -s f -l force)
+set options $options (fish_opt -s u -l update)
 
-# Install NeoVim module for NPM
-sudo npm i -g neovim
+# Reading the flags
+argparse $options -- $argv
+
+# Initializing the buffer of output
+set -l output (if set -q _flag_verbose; echo '/dev/tty'; else; echo '/dev/null'; end)
+
+if set -q _flag_update
+	begin
+		# need to rewrite in future (бляяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяяя)
+		sudo apt install -y npm python3.10-venv ruby-dev pkg-config
+		python3 -m pip install --upgrade pip
+		fish_add_path ~/.local/bin
+		pip3 install --upgrade pynvim
+		sudo gem install neovim
+
+		# Install NeoVim module for NPM
+		sudo npm i -g neovim
+	end &> $output
+end
 
 # Инициализация текста сообщений в зависимости от установленного языка в оболочке
 if test (string match -ri "ru" "$LANG")
@@ -59,9 +74,9 @@ if test (string match -ri "ru" "$LANG")
 			case FONTS
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color magenta; echo -n "[ДАННЫЕ] "; set_color white; echo "Шрифты для GNOME эмулятора терминала: https://www.nerdfonts.com/font-downloads (моя рекомендация - "(set_color cyan)"FiraCode"(set_color white)")";
 			case FONT_PATCH
-        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[ЗАДАЧА] "; set_color white; echo "Пропатчить шрифт для иконок ? (\"nvim-tree/nvim-web-devicons\") (y/N) ";
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[ЗАДАЧА] "; set_color white; echo "Пропатчить шрифт для иконок? (\"nvim-tree/nvim-web-devicons\") (y/N) ";
 			case FONT_CHOOSE
-        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[ЗАДАЧА] "; set_color white; echo "Выбери шрифт (путь) ";
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[ЗАДАЧА] "; set_color white; echo "Путь до шрифта";
 			case FONT_PATCHED
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[РАБОТА] "; set_color white; echo "Пропатчен шрифт для иконок  (\"nvim-tree/nvim-web-devicons\")";
     end
@@ -92,9 +107,9 @@ else
 			case LSP_CSSMODULES_INSTALLED
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[WORK] "; set_color white; echo "Install the LSP-server for CSS (formatter) (\"antonk52/cssmodules-language-server\")";
 			case LSP_DENO_INSTALL
-        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[TASK] "; set_color white; echo "Install the LSP-server for JavaScript и PostScript? (\"denoland/deno\") (y/N) ";
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[TASK] "; set_color white; echo "Install the LSP-server for JavaScript and PostScript? (\"denoland/deno\") (y/N) ";
 			case LSP_DENO_INSTALLED
-        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[WORK] "; set_color white; echo "Installed the LSP-server for JavaScript и PostScript (\"denoland/deno\")";
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[WORK] "; set_color white; echo "Installed the LSP-server for JavaScript and PostScript (\"denoland/deno\")";
 			case LSP_LUA_INSTALL
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[TASK] "; set_color white; echo "Install the LSP-server for Lua? (\"luals/lua-language-server\") (y/N) ";
 			case LSP_LUA_INSTALLED
@@ -112,113 +127,141 @@ else
 			case FONT_INSTALLED
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[WORK] "; set_color white; echo "Installed "(set_color cyan)"FiraCode"(set_color white)" font (select it in your terminal emulator settings)";
 			case FONTS
-        set_color yellow; echo -n "[mirzaev/nvim] "; set_color magenta; echo -n "[INFO] "; set_color white; echo "Fonts for GNOME terminal emulator: https://www.nerdfonts.com/font-downloads (my recommendation - "(set_color cyan)"FiraCode"(set_color white)")";
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color magenta; echo -n "[INFO] "; set_color white; echo "Fonts for GNOME terminal emulator: https://www.nerdfonts.com/font-downloads (my recommendation - "(set_color cyan)"FiraCode"(set_color white)") ";
 			case FONT_PATCH
-        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[TASK] "; set_color white; echo "Patch your font for icons ? (\"nvim-tree/nvim-web-devicons\") (y/N) ";
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[TASK] "; set_color white; echo "Patch your font for icons? (\"nvim-tree/nvim-web-devicons\") (y/N) ";
 			case FONT_CHOOSE
-        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[TASK] "; set_color white; echo "Choose a font (path)";
+        set_color yellow; echo -n "[mirzaev/nvim] "; set_color blue; echo -n "[TASK] "; set_color white; echo "Path to the font";
 			case FONT_PATCHED
         set_color yellow; echo -n "[mirzaev/nvim] "; set_color green; echo -n "[WORK] "; set_color white; echo "Pathed the font for icons  (\"nvim-tree/nvim-web-devicons\")";
-	end
+		end
 	end
 end
 
-# Installation request
-set RESPONSE (read -n 1 -p "print PACKER_INSTALL")
-bind -e y
+if not set -q _flag_force
+	# Installation request
+	set RESPONSE (read -n 1 -p "print PACKER_INSTALL")
+	bind -e y
+end
 
-if test (string match -ri 'y' "$RESPONSE")
+if set -q _flag_force; or test (string match -ri 'y' "$RESPONSE")
 	if test -d ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 		# Найден репозиторий "wbthomason/packer.nvim"
 
-		# Installation request
-		set RESPONSE (read -n 1 -p "print PACKER_EXISTS")
-		bind -e y
+		if not set -q _flag_force
+			# Installation request
+			set RESPONSE (read -n 1 -p "print PACKER_EXISTS")
+			bind -e y
+		end
 
-		if test (string match -ri 'y' "$RESPONSE")
+		if set -q _flag_force; or test (string match -ri 'y' "$RESPONSE")
 			# Запрошена переустановка
 
-			# Деинициализация старого репозитория
-			rm -rf ~/.local/share/nvim/site/pack/packer/start/packer.nvim 1> /dev/null 2> /dev/null 
+			begin 
+				# Деинициализация старого репозитория
+				rm -rf ~/.local/share/nvim/site/pack/packer/start/packer.nvim 
 
-			# Инициализация репозитория
-			git clone --depth 1 https://github.com/wbthomason/packer.nvim\
-				~/.local/share/nvim/site/pack/packer/start/packer.nvim 1> /dev/null 2> /dev/null 
+				# Инициализация репозитория
+				git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+					~/.local/share/nvim/site/pack/packer/start/packer.nvim 
+			end &> $output
 
 			print PACKER_INSTALLED
 		end
 	else 
 		# Не найден репозиторий "wbthomason/packer.nvim" 
 
-		# Инициализация репозитория
-		git clone --depth 1 https://github.com/wbthomason/packer.nvim\
-		 ~/.local/share/nvim/site/pack/packer/start/packer.nvim 1> /dev/null 2> /dev/null 
+		begin
+			# Инициализация репозитория
+			git clone --depth 1 https://github.com/wbthomason/packer.nvim\
+				~/.local/share/nvim/site/pack/packer/start/packer.nvim 
+		end &> $output
 
 		print PACKER_INSTALLED
 	end
 end
 
-# Installation request
-set RESPONSE (read -n 1 -p "print LSP_INTELEPHENSE_INSTALL")
-bind -e y
+if not set -q _flag_force
+	# Installation request
+	set RESPONSE (read -n 1 -p "print LSP_INTELEPHENSE_INSTALL")
+	bind -e y
+end
 
-if test (string match -ri 'y' "$RESPONSE")
+if set -q _flag_force; or test (string match -ri 'y' "$RESPONSE")
 	# Запрошена установка "bmewburn/vscode-intelephense"
 
-	# Установка
-	sudo npm i -g intelephense 1> /dev/null 2> /dev/null
+	begin
+		# Установка
+		sudo npm i -g intelephense
+	end &> $output
 
 	print LSP_INTELEPHENSE_INSTALLED
 end
 
-# Installation request
-set RESPONSE (read -n 1 -p "print LSP_VSCODE-LANGSERVERS_INSTALL")
-bind -e y
+if not set -q _flag_force
+	# Installation request
+	set RESPONSE (read -n 1 -p "print LSP_VSCODE-LANGSERVERS_INSTALL")
+	bind -e y
+end
 
-if test (string match -ri 'y' "$RESPONSE")
+if set -q _flag_force; or test (string match -ri 'y' "$RESPONSE")
 	# Запрошена установка "hrsh7th/vscode-langservers-extracted"
 
-	# Установка
-	sudo npm i -g vscode-langservers-extracted 1> /dev/null 2> /dev/null
+	begin
+		# Установка
+		sudo npm i -g vscode-langservers-extracted
+	end &> $output
 
 	print LSP_VSCODE-LANGSERVERS_INSTALLED
 end
 
-# Installation request
-set RESPONSE (read -n 1 -p "print LSP_EMMET_INSTALL")
-bind -e y
+if not set -q _flag_force
+	# Installation request
+	set RESPONSE (read -n 1 -p "print LSP_EMMET_INSTALL")
+	bind -e y
+end
 
-if test (string match -ri 'y' "$RESPONSE")
+if set -q _flag_force; or test (string match -ri 'y' "$RESPONSE")
 	# Запрошена установка "aca/emmet-ls"
 
-	# Установка
-	sudo npm i -g emmet-ls 1> /dev/null 2> /dev/null
+	begin
+		# Установка
+		sudo npm i -g emmet-ls
+	end &> $output
 
 	print LSP_EMMET_INSTALLED
 end
 
-# Installation request
-set RESPONSE (read -n 1 -p "print LSP_CSSMODULES_INSTALL")
-bind -e y
+if not set -q _flag_force
+	# Installation request
+	set RESPONSE (read -n 1 -p "print LSP_CSSMODULES_INSTALL")
+	bind -e y
+end
 
-if test (string match -ri 'y' "$RESPONSE")
+if set -q _flag_force; or test (string match -ri 'y' "$RESPONSE")
 	# Запрошена установка "antonk52/cssmodules-language-server"
 
-	# Установка
-	sudo npm i -g cssmodules-language-server 1> /dev/null 2> /dev/null
+	begin
+		# Установка
+		sudo npm i -g cssmodules-language-server
+	end &> $output
 
 	print LSP_CSSMODULES_INSTALLED
 end
 
-# Installation request
-set RESPONSE (read -n 1 -p "print LSP_DENO_INSTALL")
-bind -e y
+if not set -q _flag_force
+	# Installation request
+	set RESPONSE (read -n 1 -p "print LSP_DENO_INSTALL")
+	bind -e y
+end
 
-if test (string match -ri 'y' "$RESPONSE")
+if set -q _flag_force; or test (string match -ri 'y' "$RESPONSE")
 	# Запрошена установка "denoland/deno"
 
-	# Установка
-	curl -fsSL https://deno.land/install.sh | sh 1> /dev/null 2> /dev/null 
+	begin
+		# Установка
+		curl -fsSL https://deno.land/install.sh | sh 
+	end &> $output
 
 	# TODO доделать нормально
 	set -g DENO_INSTALL "$HOME/.deno"
@@ -227,72 +270,90 @@ if test (string match -ri 'y' "$RESPONSE")
 	print LSP_DENO_INSTALLED
 end
 
-# Installation request
-set RESPONSE (read -n 1 -p "print LSP_LUA_INSTALL")GG
-bind -e y
 
-if test (string match -ri 'y' "$RESPONSE")
+if not set -q _flag_force
+	# Installation request
+	set RESPONSE (read -n 1 -p "print LSP_LUA_INSTALL")
+	bind -e y
+end
+
+if set -q _flag_force; or test (string match -ri 'y' "$RESPONSE")
 	# Запрошена установка "luals/lua-language-server"
 
-	# Установка
-	sudo apt install ninja-build -y
-	cd ~/
-	rm -rf lua-language-server 1> /dev/null 2> /dev/null
-	git clone https://github.com/LuaLS/lua-language-server 1> /dev/null 2> /dev/null 
-	cd lua-language-server
-	fish ./make.sh 1> /dev/null 2> /dev/null 
- 	fish_add_path $HOME/lua-language-server/bin 1> /dev/null 2> /dev/null 
+	begin
+		# Установка
+		sudo apt install ninja-build -y
+		cd ~/
+		rm -rf lua-language-server
+		git clone https://github.com/LuaLS/lua-language-server 
+		cd lua-language-server
+		fish ./make.sh 
+		fish_add_path $HOME/lua-language-server/bin 
+	end &> $output
 
 	print LSP_LUA_INSTALLED
 end
 
-# Installation request
-set RESPONSE (read -n 1 -p "print FORMATTER_NGINX_INSTALL")
-bind -e y
+if not set -q _flag_force
+	# Installation request
+	set RESPONSE (read -n 1 -p "print FORMATTER_NGINX_INSTALL")
+	bind -e y
+end
 
-if test (string match -ri 'y' "$RESPONSE")
+if set -q _flag_force; or test (string match -ri 'y' "$RESPONSE")
 	# Запрошена установка "vasilevich/nginxbeautifier"
 
-	# Установка
-	sudo npm i -g nginxbeautifier 1> /dev/null 2> /dev/null
+	begin
+		# Установка
+		sudo npm i -g nginxbeautifier
+	end &> $output
 
 	print FORMATTER_NGINX_INSTALLED
 end
 
-# Installation request
-set RESPONSE (read -n 1 -p "print FORMATTER_PRETTIER_INSTALL")
-bind -e y
+if not set -q _flag_force
+	# Installation request
+	set RESPONSE (read -n 1 -p "print FORMATTER_PRETTIER_INSTALL")
+	bind -e y
+end
 
-if test (string match -ri 'y' "$RESPONSE")
+if set -q _flag_force; or test (string match -ri 'y' "$RESPONSE")
 	# Accepted installation of "prettier/vim-prettier"
 
-	npm i prettier 1> /dev/null 2> /dev/null
-	sudo npm i -g prettier 1> /dev/null 2> /dev/null
+	begin
+		npm i prettier
+		sudo npm i -g prettier
+	end &> $output
 
 	print FORMATTER_PRETTIER_INSTALLED
 end
 
 print FONTS
 
-# Installation request
-set RESPONSE (read -n 1 -p "print FONT_INSTALL")
-bind -e y
-if test (string match -ri 'y' "$RESPONSE")
+if not set -q _flag_force
+	# Installation request
+	set RESPONSE (read -n 1 -p "print FONT_INSTALL")
+	bind -e y
+end
+
+if set -q _flag_force; or test (string match -ri 'y' "$RESPONSE")
 	# Accepted installation of the FiraCode font
 	
-	mkdir -p ~/.local/share/fonts/FiraCode
-	cd ~/.local/share/fonts/FiraCode
-	wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/FiraCode.zip"
-	unzip FiraCode.zip
-	rm FiraCode.zip
-	fc-cache -f -v
+	begin
+		mkdir -p ~/.local/share/fonts/FiraCode
+		cd ~/.local/share/fonts/FiraCode
+		wget "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/FiraCode.zip"
+		unzip -o FiraCode.zip
+		rm FiraCode.zip
+		fc-cache -f -v
+	end &> $output
 
 	print FONT_INSTALLED
 
 	if type -q dconf
 		# GNOME
 
-		# if (string match (lsb_release -i | grep -Po '[^\s]*$') Ubuntu))
+		# if (set -q _flag_force or string match (lsb_release -i | grep -Po '[^\s]*$') Ubuntu))
 		# 	sudo apt-get install dconf
 		# end
 	end
@@ -303,27 +364,37 @@ if test (string match -ri 'y' "$RESPONSE")
 else
 	# Denied installation of the FiraCode font
 	
-	# Installation request
-	set RESPONSE (read -n 1 -p "print FONT_PATCH")
-	bind -e y
+	if not set -q _flag_force
+		# Installation request
+		set RESPONSE (read -n 1 -p "print FONT_PATCH")
+		bind -e y
+	end
 
-	if test (string match -ri 'y' "$RESPONSE")
+	if set -q _flag_force; or test (string match -ri 'y' "$RESPONSE")
 		# Accepted to patching the font
 
-		cd ~/
-		wget "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FontPatcher.zip"
-		unzip FontPatcher.zip -d font_patcher
-		cd font_patcher
+		begin
+			cd ~/
+			wget "https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FontPatcher.zip"
+			unzip -o FontPatcher.zip -d font_patcher
+			cd font_patcher
 
-		#if not type -q python && type -q python3
-		if not type -q python
-			# alias python=python3
-			sudo apt install python-is-python3 -y
-		end
+			#if not type -q python && type -q python3
+			if not type -q python
+				# alias python=python3
+				sudo apt install python-is-python3 -y
+			end
 
-		sudo apt install fontforge python3-fontforge -y
+			sudo apt install fontforge python3-fontforge -y
 
-		./font-patcher (read -p "print FONT_CHOOSE")
+		end &> $output
+	
+		# Initializing path to the font
+		set FONT (read -p "print FONT_CHOOSE")
+
+		begin
+			./font-patcher $FONT
+		end &> $output
 
 		print FONT_PATCHED
 	end
